@@ -4,69 +4,6 @@
   
     
     <entry>
-      <title>sss</title>
-      <link href="/2019/11/14/sss/"/>
-      <url>/2019/11/14/sss/</url>
-      
-        <content type="html"><![CDATA[<p>![小狗狗顶菊花](C:\Users\lenovo\Pictures\Camera Roll\gg.jpeg)</p><img src="/2019/11/14/sss/Users\lenovo\blog\source\_posts\sss\185.jpg" style="zoom: 50%;"><p>阿斯顿发的闪电风暴是的非官方的是大法官不规范的认同与环境股份</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> ss </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> s </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>python</title>
-      <link href="/2019/11/13/python/"/>
-      <url>/2019/11/13/python/</url>
-      
-        <content type="html"><![CDATA[<p>![](C:\Users\lenovo\Pictures\Camera Roll\1471513769430.png)</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> python </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>myfirst</title>
-      <link href="/2019/09/19/myfirst/"/>
-      <url>/2019/09/19/myfirst/</url>
-      
-        <content type="html"><![CDATA[<p>#博客</p><p>##怀着激动的心情，我要开始我的博客生涯了。</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> 第一篇 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Hello World</title>
       <link href="/2019/09/19/hello-world/"/>
       <url>/2019/09/19/hello-world/</url>
@@ -74,69 +11,6 @@
         <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><a id="more"></a><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
       
       
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>test-img</title>
-      <link href="/2018/08/08/test-img/"/>
-      <url>/2018/08/08/test-img/</url>
-      
-        <content type="html"><![CDATA[<h4 id="测试图片"><a href="#测试图片" class="headerlink" title="测试图片"></a>测试图片</h4><p><img src="/2018/08/08/test-img/t.png" alt="t"></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> ttttt </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> ttt </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>test-upload</title>
-      <link href="/2018/08/08/test-upload/"/>
-      <url>/2018/08/08/test-upload/</url>
-      
-        <content type="html"><![CDATA[<h4 id="测试博文更新时间"><a href="#测试博文更新时间" class="headerlink" title="测试博文更新时间"></a>测试博文更新时间</h4><img src="/2018/08/08/test-upload/gg.jpeg" alt="小狗" style="zoom:25%;">]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>test</title>
-      <link href="/2018/08/08/test/"/>
-      <url>/2018/08/08/test/</url>
-      
-        <content type="html"><![CDATA[<h4 id="测试发布时间所用"><a href="#测试发布时间所用" class="headerlink" title="测试发布时间所用"></a>测试发布时间所用</h4><p>测试测试</p><h4 id="测试不同的字体大小所带来的影响"><a href="#测试不同的字体大小所带来的影响" class="headerlink" title="测试不同的字体大小所带来的影响"></a>测试不同的字体大小所带来的影响</h4><p>字体大小</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> ttt </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> test </tag>
-            
-        </tags>
       
     </entry>
     
