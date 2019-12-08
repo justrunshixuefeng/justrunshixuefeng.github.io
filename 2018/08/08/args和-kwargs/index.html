@@ -50,18 +50,21 @@
   };
 </script>
 
-  <meta name="description" content="逆光而行">
-<meta property="og:type" content="website">
-<meta property="og:title" content="积沙填海">
-<meta property="og:url" content="http://xuefeng.online/categories/python语法/index.html">
+  <meta name="description" content="args  *kwargs  不定长参数12345678def jia(*args):    s = 0    for i in args:        s += i    return sprint(jia(1, 2, 3))         #6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="*args和**kwargs">
+<meta property="og:url" content="http://xuefeng.online/2018/08/08/args和-kwargs/index.html">
 <meta property="og:site_name" content="积沙填海">
-<meta property="og:description" content="逆光而行">
+<meta property="og:description" content="args  *kwargs  不定长参数12345678def jia(*args):    s = 0    for i in args:        s += i    return sprint(jia(1, 2, 3))         #6">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://xuefeng.online/2018/08/08/args和-kwargs/1.png">
+<meta property="og:updated_time" content="2018-08-08T08:08:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="积沙填海">
-<meta name="twitter:description" content="逆光而行">
+<meta name="twitter:title" content="*args和**kwargs">
+<meta name="twitter:description" content="args  *kwargs  不定长参数12345678def jia(*args):    s = 0    for i in args:        s += i    return sprint(jia(1, 2, 3))         #6">
+<meta name="twitter:image" content="http://xuefeng.online/2018/08/08/args和-kwargs/1.png">
 
-<link rel="canonical" href="http://xuefeng.online/categories/python语法/">
+<link rel="canonical" href="http://xuefeng.online/2018/08/08/args和-kwargs/">
 
 
 <script id="page-configurations">
@@ -69,13 +72,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>分类: python语法 | 积沙填海</title>
+  <title>*args和**kwargs | 积沙填海</title>
   
 
 
@@ -212,50 +215,119 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h1 class="collection-header">python语法
-          <small>分类</small>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://xuefeng.online/2018/08/08/args和-kwargs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pingtouge.jpg">
+      <meta itemprop="name" content="平头哥">
+      <meta itemprop="description" content="逆光而行">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="积沙填海">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          *args和**kwargs
         </h1>
-      </div>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-08-08 16:08:08" itemprop="dateCreated datePublished" datetime="2018-08-08T16:08:08+08:00">2018-08-08</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2018</h1>
+        <h4 id="args-kwargs-不定长参数"><a href="#args-kwargs-不定长参数" class="headerlink" title="args  *kwargs  不定长参数"></a><em>args  *</em>kwargs  不定长参数</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jia</span><span class="params">(*args)</span>:</span></span><br><span class="line">    s = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> args:</span><br><span class="line">        s += i</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(jia(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>))         <span class="comment">#6</span></span><br></pre></td></tr></table></figure><a id="more"></a>
+
+<blockquote>
+<p>python函数允许同时全部或部分使用使用固定参数，默认参数，单值（一颗星）可变参数，键值对（两颗星）可变参数，使用时必须安装前述顺序书写。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">info</span><span class="params">(name, age=<span class="number">18</span>, *args, **kwargs)</span>:</span></span><br><span class="line">    print(<span class="string">'姓名:%s,年龄:%d'</span> % (name, age))</span><br><span class="line">    print(args)</span><br><span class="line">    print(kwargs)</span><br><span class="line"></span><br><span class="line">info(<span class="string">'xuefeng'</span>, <span class="number">23</span>, <span class="number">180</span>, <span class="number">80</span>, like=<span class="string">'python'</span>, body=<span class="string">'fat'</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2018/08/08/args和-kwargs/1.png" alt="img"></p>
+<blockquote>
+<p>此外一颗星（单值可变参数）和两颗星（键值对可变参数）还可用于列表，元组，字典的解包。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">print(*a)               <span class="comment"># 1 2 3</span></span><br><span class="line">b = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">print(*b)               <span class="comment"># 1 2 3</span></span><br><span class="line">c = &#123;<span class="string">'name'</span>: <span class="string">'小明'</span>, <span class="string">'age'</span>: <span class="number">23</span>&#125;</span><br><span class="line">print(*c)               <span class="comment"># name age</span></span><br><span class="line">print(<span class="string">'name:&#123;name&#125;,age:&#123;age&#125;'</span>.format(**c))  <span class="comment"># name:小明,age:23</span></span><br></pre></td></tr></table></figure>
+
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2018-08-08T16:08:08+08:00"
-              content="2018-08-08">
-          08-08
-        </time>
-      </div>
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+        
 
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2018/08/08/python语法：for-else/" itemprop="url">
-            <span itemprop="name">python语法：for...else...</span>
-          </a>
-      </h2>
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>平头哥
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://xuefeng.online/2018/08/08/args和-kwargs/" title="*args和**kwargs">http://xuefeng.online/2018/08/08/args和-kwargs/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
 
-    </header>
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/08/08/python语法：for-else/" rel="next" title="python语法：for...else...">
+                  <i class="fa fa-chevron-left"></i> python语法：for...else...
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-    </div>
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
@@ -284,6 +356,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#args-kwargs-不定长参数"><span class="nav-number">1.</span> <span class="nav-text">args  *kwargs  不定长参数</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
