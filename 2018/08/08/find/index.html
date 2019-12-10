@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.2">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.2" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.2">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="find命令格式：find   path  -option  【 -print 】  【 -exec   -ok   |xargs  |grep  】 【  command  {} ;  】">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="find">
+<meta property="og:url" content="http://xuefeng.online/2018/08/08/find/index.html">
+<meta property="og:site_name" content="积沙填海">
+<meta property="og:description" content="find命令格式：find   path  -option  【 -print 】  【 -exec   -ok   |xargs  |grep  】 【  command  {} ;  】">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://xuefeng.online/2018/08/08/find/C:%5CUsers%5Clenovo%5Cblog%5Csource_posts%5Cfind%5C1.png">
+<meta property="og:image" content="http://xuefeng.online/2018/08/08/find/find%5C2.png">
+<meta property="og:updated_time" content="2018-08-08T08:08:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="find">
+<meta name="twitter:description" content="find命令格式：find   path  -option  【 -print 】  【 -exec   -ok   |xargs  |grep  】 【  command  {} ;  】">
+<meta name="twitter:image" content="http://xuefeng.online/2018/08/08/find/C:%5CUsers%5Clenovo%5Cblog%5Csource_posts%5Cfind%5C1.png">
+
+<link rel="canonical" href="http://xuefeng.online/2018/08/08/find/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>find | 积沙填海</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">积沙填海</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">记录生活中的点点滴滴</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">4</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">4</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">5</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://xuefeng.online/2018/08/08/find/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pingtouge.jpg">
+      <meta itemprop="name" content="平头哥">
+      <meta itemprop="description" content="逆光而行">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="积沙填海">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          find
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-08-08 16:08:08" itemprop="dateCreated datePublished" datetime="2018-08-08T16:08:08+08:00">2018-08-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="find命令格式："><a href="#find命令格式：" class="headerlink" title="find命令格式："></a>find命令格式：</h3><p>find   path  -option  【 -print 】  【 -exec   -ok   |xargs  |grep  】 【  command  {} ;  】</p><a id="more"></a>
+<hr>
+<p>find命令的参数：</p>
+<ol>
+<li><p>path：要查找的目录路径。 </p>
+<blockquote>
+<p>  ~ 表示$HOME目录<br>  . 表示当前目录<br>  / 表示根目录 </p>
+</blockquote>
+</li>
+<li><p>print：表示将结果输出到标准输出。</p>
+</li>
+<li><p>exec：对匹配的文件执行该参数所给出的shell命令。 </p>
+<pre><code>形式为command {} \;，注意{}与\;之间有空格 </code></pre></li>
+<li><p>ok：与exec作用相同，</p>
+<pre><code>区别在于，在执行命令之前，都会给出提示，让用户确认是否执行 </code></pre></li>
+<li><p>|xargs  与exec作用相同 ，起承接作用</p>
+<p>区别在于 |xargs 主要用于承接删除操作 ，而 -exec 都可用 如复制、移动、重命名等</p>
+</li>
+<li><p>options ：表示查找方式</p>
+<blockquote>
+<p>options常用的有下选项：</p>
+<p>-name   filename               #查找名为filename的文件<br>-perm                                #按执行权限来查找<br>-user    username             #按文件属主来查找<br>-group groupname            #按组来查找<br>-mtime   -n +n                   #按文件更改时间来查找文件，-n指n天以内，+n指n天以前<br>-atime    -n +n                   #按文件访问时间来查找文件，-n指n天以内，+n指n天以前<br>-ctime    -n +n                  #按文件创建时间来查找文件，-n指n天以内，+n指n天以前<br>-nogroup                          #查无有效属组的文件，即文件的属组在/etc/groups中不存在<br>-nouser                            #查无有效属主的文件，即文件的属主在/etc/passwd中不存<br>-type    b/d/c/p/l/f             #查是块设备、目录、字符设备、管道、符号链接、普通文件<br>-size      n[c]                    #查长度为n块[或n字节]的文件<br>-mount                            #查文件时不跨越文件系统mount点<br>-follow                            #如果遇到符号链接文件，就跟踪链接所指的文件<br>-prune                            #忽略某个目录</p>
+</blockquote>
+</li>
+</ol>
+<hr>
+<p>下面通过一些简单的例子来介绍下find的常规用法： </p>
+<h4 id="1、按名字查找"><a href="#1、按名字查找" class="headerlink" title="1、按名字查找"></a>1、按名字查找</h4><pre><code>在当前目录及子目录中，查找大写字母开头的txt文件 
+ $ find . -name &apos;[A-Z]*.txt&apos; -print 　　
+
+在/etc及其子目录中，查找host开头的文件 
+$ find /etc -name &apos;host*&apos; -print 　　
+
+在$HOME目录及其子目录中，查找所有文件 　　
+$ find ~ -name &apos;*&apos; -print 
+
+在当前目录及子目录中，查找不是out开头的txt文件 　　
+$ find . -name &quot;out*&quot; -prune -o -name &quot;*.txt&quot; -print </code></pre><h4 id="2、按目录查找"><a href="#2、按目录查找" class="headerlink" title="2、按目录查找 　　"></a>2、按目录查找 　　</h4><pre><code>在当前目录除aa之外的子目录内搜索 txt文件 　　
+$ find . -path &quot;./aa&quot; -prune -o -name &quot;*.txt&quot; -print 　　
+
+在当前目录及除aa和bb之外的子目录中查找txt文件 　　
+$ find . −path′./dir0′−o−path′./dir1′−path′./dir0′−o−path′./dir1′ -a -prune -o -name &apos;*.txt&apos; -print</code></pre><p>注意：在1、2处都需要加空格，否则会出现如图所示的报错</p>
+<pre><code>      在3处加不加 -a都可以
+
+ 在当前目录，不再子目录中，查找txt文件 
+ $ find . ! -name &quot;.&quot; -type d -prune -o -type f -name &quot;*.txt&quot; -print 
+
+或者   find . -name *.txt -type f -print</code></pre><p>友情链接：Linux中find命令-path -prune用法详解</p>
+<h4 id="3、按权限查找"><a href="#3、按权限查找" class="headerlink" title="3、按权限查找 　　"></a>3、按权限查找 　　</h4><p>​      </p>
+<pre><code>在当前目录及子目录中，查找属主具有读写执行，其他具有读执行权限的文件 　　
+$ find . -perm 755 -print 
+
+查找用户有写权限或者组用户有写权限的文件或目录
+find ./ -perm /220
+find ./ -perm /u+w,g+w
+find ./ -perm /u=w,g=w</code></pre><h4 id="4、按类型查找-（b-d-c-p-l-f-）"><a href="#4、按类型查找-（b-d-c-p-l-f-）" class="headerlink" title="4、按类型查找 　（b/d/c/p/l/f ）　"></a>4、按类型查找 　（b/d/c/p/l/f ）　</h4><pre><code>在当前目录及子目录下，查找符号链接文件 　　
+$ find . -type l -print </code></pre><h4 id="5、按属主及属组"><a href="#5、按属主及属组" class="headerlink" title="5、按属主及属组 　　"></a>5、按属主及属组 　　</h4><pre><code>查找属主是www的文件 　　
+$ find / -user www -type f -print 　　
+
+查找属主被删除的文件 
+$ find / -nouser -type f -print 　　
+
+查找属组 mysql 的文件 
+$ find / -group mysql -type f -print 　　
+
+查找用户组被删掉的文件 
+$ find / -nogroup -type f -print </code></pre><h4 id="6、按时间查找"><a href="#6、按时间查找" class="headerlink" title="6、按时间查找 　　"></a>6、按时间查找 　　</h4><pre><code>查找2天内被更改过的文件 
+ $ find . -mtime -2 -type f -print 　　
+
+查找2天前被更改过的文件 
+$ find . -mtime +2 -type f -print 　　
+
+查找一天内被访问的文件 
+$ find . -atime -1 -type f -print 　　
+
+查找一天前被访问的文件 
+$ find . -atime +1 -type f -print 　　
+
+查找一天内状态被改变的文件 
+$ find . -ctime -1 -type f -print 　　
+
+查找一天前状态被改变的文件 
+$ find . -ctime +1 -type f -print 　　
+
+查找10分钟以前状态被改变的文件 
+$ find . -cmin +10 -type f -print </code></pre><h4 id="7、按文件新旧"><a href="#7、按文件新旧" class="headerlink" title="7、按文件新旧 　　"></a>7、按文件新旧 　　</h4><p>​      </p>
+<pre><code>查找比 aa.txt 新的文件 
+$ find . -newer &quot;aa.txt&quot; -type f -print 　　
+
+查找比 aa.txt 旧的文件 
+$ find . ! -newer &quot;aa.txt&quot; -type f -print 　　
+
+查找比aa.txt新，比bb.txt旧的文件 
+$ find . -newer &apos;aa.txt&apos; ! -newer &apos;bb.txt&apos; -type f -print </code></pre><h4 id="8、按大小查找"><a href="#8、按大小查找" class="headerlink" title="8、按大小查找 　　"></a>8、按大小查找 　　</h4><pre><code>查找超过1M的文件 
+$ find / -size +1M -type f -print 　　
+
+查找等于6字节的文件 
+$ find . -size 6c -print 　　
+
+查找小于32k的文件 
+$ find . -size -32k -print </code></pre><h4 id="9、执行命令"><a href="#9、执行命令" class="headerlink" title="9、执行命令 　　"></a>9、执行命令 　　</h4><p>​      </p>
+<pre><code>  1）查找 del.txt 并删除，删除前提示确认 
+  $ find . -name &apos;del.txt&apos; -ok rm {} \; 　　
+
+ 2） 查找 aa.txt 并备份为aa.txt.bak 
+  $ find . -name &apos;aa.txt&apos; -exec cp {} {}.bak \;
+
+ 3）查当前目录下的所有普通文件
+
+# find . -type f -exec ls -l {} \; </code></pre><p>   -rw-r–r–    1 root      root         34928 2003-02-25   ./conf/httpd.conf<br>   -rw-r–r–    1 root      root         12959 2003-02-25   ./conf/magic<br>   -rw-r–r–    1 root      root          180 2003-02-25   ./conf.d/README </p>
+<p>   查当前目录下的所有普通文件，并在 - exec 选项中使用 ls -l 命令将它们列出</p>
+<p>   4）在 /logs 目录中查找更改时间在5日以前的文件并删除它们<br>   $ find logs -type f -mtime +5 -exec   -ok   rm {} ;</p>
+<p>   5）查询当天修改过的文件</p>
+<p>   $ find  ./  -mtime  -1  -type f  -exec  ls -l  {} ; </p>
+<p>   6）查询文件并询问是否要显示</p>
+<pre><code># find   ./   -mtime   -1   -type f   -ok   ls -l   {} \;  
+&lt; ls … ./classDB.inc.php &gt; ? y
+-rw-r–r–    1 cnscn    cnscn       13709   1月 12 12:22 ./classDB.inc.php
+# find   ./   -mtime   -1   -type f   -ok   ls -l   {} \;  
+&lt; ls … ./classDB.inc.php &gt; ? n</code></pre><p>关于 有没有 -print 的区别</p>
+<h5 id="加-print"><a href="#加-print" class="headerlink" title="加  -print"></a>加  -print</h5><p>查找目录并列出目录下的文件(为找到的每一个目录单独执行ls命令，没有选项-print时文件列表前一行不会显示目录名称)<br>find . -type d -print -exec ls {} ;</p>
+<p><img src="/2018/08/08/find/C:%5CUsers%5Clenovo%5Cblog%5Csource_posts%5Cfind%5C1.png" alt="img"></p>
+<h5 id="不加-print"><a href="#不加-print" class="headerlink" title="不加 -print"></a>不加 -print</h5><p><img src="/2018/08/08/find/find%5C2.png" alt="img"></p>
+<hr>
+<p>原文链接：<a href="https://blog.csdn.net/l_liangkk/article/details/81294260" target="_blank" rel="noopener">https://blog.csdn.net/l_liangkk/article/details/81294260</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>平头哥
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://xuefeng.online/2018/08/08/find/" title="find">http://xuefeng.online/2018/08/08/find/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/08/08/python语法：for-else/" rel="next" title="python语法：for...else...">
+                  <i class="fa fa-chevron-left"></i> python语法：for...else...
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/08/08/args和-kwargs/" rel="prev" title="*args和**kwargs">
+                  *args和**kwargs <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#find命令格式："><span class="nav-number">1.</span> <span class="nav-text">find命令格式：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、按名字查找"><span class="nav-number">1.1.</span> <span class="nav-text">1、按名字查找</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、按目录查找"><span class="nav-number">1.2.</span> <span class="nav-text">2、按目录查找 　　</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、按权限查找"><span class="nav-number">1.3.</span> <span class="nav-text">3、按权限查找 　　</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、按类型查找-（b-d-c-p-l-f-）"><span class="nav-number">1.4.</span> <span class="nav-text">4、按类型查找 　（b/d/c/p/l/f ）　</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、按属主及属组"><span class="nav-number">1.5.</span> <span class="nav-text">5、按属主及属组 　　</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、按时间查找"><span class="nav-number">1.6.</span> <span class="nav-text">6、按时间查找 　　</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7、按文件新旧"><span class="nav-number">1.7.</span> <span class="nav-text">7、按文件新旧 　　</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8、按大小查找"><span class="nav-number">1.8.</span> <span class="nav-text">8、按大小查找 　　</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9、执行命令"><span class="nav-number">1.9.</span> <span class="nav-text">9、执行命令 　　</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#加-print"><span class="nav-number">1.9.1.</span> <span class="nav-text">加  -print</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#不加-print"><span class="nav-number">1.9.2.</span> <span class="nav-text">不加 -print</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="平头哥"
+    src="/images/pingtouge.jpg">
+  <p class="site-author-name" itemprop="name">平头哥</p>
+  <div class="site-description" itemprop="description">逆光而行</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">平头哥</span>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i>
+  <span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共3.1k字</span>
+</div>
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.2"></script><script src="/js/motion.js?v=7.4.2"></script>
+<script src="/js/schemes/pisces.js?v=7.4.2"></script>
+<script src="/js/next-boot.js?v=7.4.2"></script>
+
+
+
+  
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.2"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
