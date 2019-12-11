@@ -58,13 +58,13 @@
 <meta property="og:site_name" content="积沙填海">
 <meta property="og:description" content="find命令格式：find   path  -option  【 -print 】  【 -exec   -ok   |xargs  |grep  】 【  command  {} ;  】">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://xuefeng.online/2018/08/08/find/C:%5CUsers%5Clenovo%5Cblog%5Csource_posts%5Cfind%5C1.png">
-<meta property="og:image" content="http://xuefeng.online/2018/08/08/find/find%5C2.png">
+<meta property="og:image" content="http://xuefeng.online/2018/08/08/find/1.png">
+<meta property="og:image" content="http://xuefeng.online/2018/08/08/find/2.png">
 <meta property="og:updated_time" content="2018-08-08T08:08:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="find">
 <meta name="twitter:description" content="find命令格式：find   path  -option  【 -print 】  【 -exec   -ok   |xargs  |grep  】 【  command  {} ;  】">
-<meta name="twitter:image" content="http://xuefeng.online/2018/08/08/find/C:%5CUsers%5Clenovo%5Cblog%5Csource_posts%5Cfind%5C1.png">
+<meta name="twitter:image" content="http://xuefeng.online/2018/08/08/find/1.png">
 
 <link rel="canonical" href="http://xuefeng.online/2018/08/08/find/">
 
@@ -391,8 +391,8 @@ $ find . -size -32k -print </code></pre><h4 id="9、执行命令"><a href="#9、
 # find   ./   -mtime   -1   -type f   -ok   ls -l   {} \;  
 &lt; ls … ./classDB.inc.php &gt; ? n</code></pre><p>关于 有没有 -print 的区别</p>
 <h5 id="加-print"><a href="#加-print" class="headerlink" title="加  -print"></a>加  -print</h5><p>查找目录并列出目录下的文件(为找到的每一个目录单独执行ls命令，没有选项-print时文件列表前一行不会显示目录名称)<br>find . -type d -print -exec ls {} ;</p>
-<p><img src="/2018/08/08/find/C:%5CUsers%5Clenovo%5Cblog%5Csource_posts%5Cfind%5C1.png" alt="img"></p>
-<h5 id="不加-print"><a href="#不加-print" class="headerlink" title="不加 -print"></a>不加 -print</h5><p><img src="/2018/08/08/find/find%5C2.png" alt="img"></p>
+<p><img src="/2018/08/08/find/1.png" alt="img"></p>
+<h5 id="不加-print"><a href="#不加-print" class="headerlink" title="不加 -print"></a>不加 -print</h5><p><img src="/2018/08/08/find/2.png" alt="img"></p>
 <hr>
 <p>原文链接：<a href="https://blog.csdn.net/l_liangkk/article/details/81294260" target="_blank" rel="noopener">https://blog.csdn.net/l_liangkk/article/details/81294260</a></p>
 
