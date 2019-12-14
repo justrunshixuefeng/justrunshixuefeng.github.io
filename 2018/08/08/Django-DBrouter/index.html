@@ -58,10 +58,12 @@
 <meta property="og:site_name" content="积沙填海">
 <meta property="og:description" content="DB-router 通过编写db-router可以灵性连接mysql主从复制等情况下的多数据库  假设你已经配置好了类似MYSQL主从复制的服务，如果没有可以参照这里">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://xuefeng.online/2018/08/08/Django-DBrouter/1.png">
 <meta property="og:updated_time" content="2018-08-07T16:00:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django-DBrouter">
 <meta name="twitter:description" content="DB-router 通过编写db-router可以灵性连接mysql主从复制等情况下的多数据库  假设你已经配置好了类似MYSQL主从复制的服务，如果没有可以参照这里">
+<meta name="twitter:image" content="http://xuefeng.online/2018/08/08/Django-DBrouter/1.png">
 
 <link rel="canonical" href="http://xuefeng.online/2018/08/08/Django-DBrouter/">
 
@@ -267,32 +269,46 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="DB-router"><a href="#DB-router" class="headerlink" title="DB-router"></a>DB-router</h2><blockquote>
+        <h3 id="DB-router"><a href="#DB-router" class="headerlink" title="DB-router"></a>DB-router</h3><blockquote>
 <p>通过编写<strong>db-router</strong>可以灵性连接<strong>mysql</strong>主从复制等情况下的多数据库</p>
 </blockquote><ul>
 <li>假设你已经配置好了类似<strong>MYSQL</strong>主从复制的服务，如果没有可以参照<a href="https://lienze.tech/blog/mysql/c813917a.html" target="_blank" rel="noopener">这里</a></li>
 </ul><a id="more"></a>
 
+<h4 id="打开日志用以分析，在-etc-my-conf下加入"><a href="#打开日志用以分析，在-etc-my-conf下加入" class="headerlink" title="打开日志用以分析，在 /etc/my.conf下加入"></a>打开日志用以分析，在 /etc/my.conf下加入</h4><ul>
+<li>可以通过配置<strong>mysql</strong>日志记录，用以查看主从在读写情况下的效果,主从都要配置。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#表示永远开启general_log</span></span><br><span class="line">general_log=<span class="number">1</span></span><br><span class="line"><span class="comment">#表示general_log产生的日志文件都写在/var/lib/mysql/general.log里。</span></span><br><span class="line">general_log_file=/var/lib/mysql/general.log</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看是否开启和设置成功</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like '%log%';</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2018/08/08/Django-DBrouter/1.png" alt="img"></p>
 <ul>
 <li>settings.py</li>
 </ul>
-<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;    'default': &#123;        'ENGINE': 'django.db.backends.mysql',        'HOST': '192.168.1.101',        'PORT': <span class="number">3306</span>,        'USER': 'root',        'PASSWORD': '<span class="number">123456</span>',        'NAME': 'test1'    &#125;,    'slave': &#123;        'ENGINE': 'django.db.backends.mysql',        'HOST': '192.168.1.102',        'PORT': <span class="number">3306</span>,        'USER': 'root',        'PASSWORD': '<span class="number">123456</span>',        'NAME': 'test1'    &#125;&#125;DATABASE_ROUTERS = ['pro.utils.MasterSlaveDBRouter']</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.mysql'</span>,</span><br><span class="line">        <span class="string">'HOST'</span>: <span class="string">'116.62.222.123'</span>,</span><br><span class="line">        <span class="string">'PORT'</span>: <span class="number">3306</span>,</span><br><span class="line">        <span class="string">'USER'</span>: <span class="string">'master'</span>,</span><br><span class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'123456'</span>,</span><br><span class="line">        <span class="string">'NAME'</span>: <span class="string">'ccc'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">'slave'</span>: &#123;</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.mysql'</span>,</span><br><span class="line">        <span class="string">'HOST'</span>: <span class="string">'47.97.172.176'</span>,</span><br><span class="line">        <span class="string">'PORT'</span>: <span class="number">3306</span>,</span><br><span class="line">        <span class="string">'USER'</span>: <span class="string">'root'</span>,</span><br><span class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'123456'</span>,</span><br><span class="line">        <span class="string">'NAME'</span>: <span class="string">'ccc'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">DATABASE_ROUTERS = [<span class="string">'test1.utils.MasterSlaveDBRouter'</span>]</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>编写<strong>db-router</strong></li>
+<li>编写<strong>db-router</strong>,在主应用下（与settings.py同级）创建utils.py(自定义)，写入下面代码</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MasterSlaveDBRouter</span>:</span>    <span class="string">"""数据库主从读写分离路由"""</span>    <span class="function"><span class="keyword">def</span> <span class="title">db_for_read</span><span class="params">(self, model, **hints)</span>:</span>        <span class="string">"""读数据库"""</span>        <span class="keyword">return</span> <span class="string">"slave"</span>    <span class="function"><span class="keyword">def</span> <span class="title">db_for_write</span><span class="params">(self, model, **hints)</span>:</span>        <span class="string">"""写数据库"""</span>        <span class="keyword">return</span> <span class="string">"default"</span>    <span class="function"><span class="keyword">def</span> <span class="title">allow_relation</span><span class="params">(self, obj1, obj2, **hints)</span>:</span>        <span class="string">"""是否运行关联操作"""</span>        <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MasterSlaveDBRouter</span>:</span></span><br><span class="line">    <span class="string">"""数据库主从读写分离路由"""</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">db_for_read</span><span class="params">(self, model, **hints)</span>:</span></span><br><span class="line">        <span class="string">"""读数据库"""</span></span><br><span class="line">        <span class="comment"># print 用于测试</span></span><br><span class="line">        print(<span class="string">"给从"</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"slave"</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">db_for_write</span><span class="params">(self, model, **hints)</span>:</span></span><br><span class="line">        <span class="string">"""写数据库"""</span></span><br><span class="line">        print(<span class="string">"给主"</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"default"</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">allow_relation</span><span class="params">(self, obj1, obj2, **hints)</span>:</span></span><br><span class="line">        <span class="string">"""是否运行关联操作"""</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>如出现以下错误，修改主库binlog日志格式</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">django.db.utils.InternalError: (1665, 'Cannot <span class="keyword">execute</span> <span class="keyword">statement</span>: impossible <span class="keyword">to</span> write <span class="keyword">to</span> <span class="built_in">binary</span> <span class="keyword">log</span> since BINLOG_FORMAT = <span class="keyword">STATEMENT</span> <span class="keyword">and</span> <span class="keyword">at</span> <span class="keyword">least</span> one <span class="keyword">table</span> uses a <span class="keyword">storage</span> <span class="keyword">engine</span> limited <span class="keyword">to</span> <span class="keyword">row</span>-based logging. <span class="keyword">InnoDB</span> <span class="keyword">is</span> limited <span class="keyword">to</span> <span class="keyword">row</span>-<span class="keyword">logging</span> <span class="keyword">when</span> <span class="keyword">transaction</span> <span class="keyword">isolation</span> <span class="keyword">level</span> <span class="keyword">is</span> <span class="keyword">READ</span> COMMITTED <span class="keyword">or</span> <span class="keyword">READ</span> UNCOMMITTED.<span class="string">')</span></span><br><span class="line"><span class="string">binlog_format=mixed</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">django.db.utils.InternalError: (<span class="number">1665</span>, <span class="string">'Cannot execute statement: impossible to write to binary log since BINLOG_FORMAT = STATEMENT and at least one table uses a storage engine limited to row-based logging. InnoDB is limited to row-logging when transaction isolation level is READ COMMITTED or READ UNCOMMITTED.'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当迁移项目数据时出现上面的错误，在 /etc/my.conf下加入</span></span><br><span class="line">binlog_format=mixed</span><br></pre></td></tr></table></figure>
 
-<h3 id="打开日志用以分析"><a href="#打开日志用以分析" class="headerlink" title="打开日志用以分析"></a>打开日志用以分析</h3><ul>
-<li>可以通过配置<strong>mysql</strong>日志记录，用以查看主从在读写情况下的效果</li>
+<ul>
+<li><p>基本上ok后，可以通过查看general.log，来查看读写情况</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>进入 日志所在目录，通过下面代码查看后50行数据</span><br><span class="line">cat general.log | tail -n 50</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
 </ul>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">general_log=<span class="number">1</span>general_log_file=<span class="regexp">/var/</span>lib<span class="regexp">/mysql/g</span>eneral.log</span><br></pre></td></tr></table></figure>
-
 
     </div>
 
@@ -385,7 +401,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DB-router"><span class="nav-number">1.</span> <span class="nav-text">DB-router</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#打开日志用以分析"><span class="nav-number">1.1.</span> <span class="nav-text">打开日志用以分析</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DB-router"><span class="nav-number">1.</span> <span class="nav-text">DB-router</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#打开日志用以分析，在-etc-my-conf下加入"><span class="nav-number">1.1.</span> <span class="nav-text">打开日志用以分析，在 /etc/my.conf下加入</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -457,7 +473,7 @@
 </div>
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共4.8k字</span>
+  <span class="post-count">博客全站共4.9k字</span>
 </div>
         
 
