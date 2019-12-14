@@ -320,9 +320,9 @@
 </li>
 </ul>
 <h3 id="主库修改"><a href="#主库修改" class="headerlink" title="主库修改"></a>主库修改</h3><ul>
-<li>主库配置修改</li>
+<li>主库配置修改，在 /etc/my.cnf加入下边的代码</li>
 </ul>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server-id = <span class="attribute">1log-bin</span>=mysql-bin # 开启log <span class="attribute">binexpire_logs_days</span>=7 # 日志保存时间</span><br></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server-id</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">log-bin</span>=mysql-bin <span class="comment"># 开启log </span></span><br><span class="line"><span class="attr">binexpire_logs_days</span>=<span class="number">7</span> <span class="comment"># 日志保存时间</span></span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p><strong>server-id</strong>：</p>
@@ -369,7 +369,7 @@
 <h4 id="从机处配置"><a href="#从机处配置" class="headerlink" title="从机处配置"></a>从机处配置</h4><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">replicate-<span class="keyword">do</span>-<span class="keyword">db</span>    # 设定需要复制的数据库replicate-ignore-<span class="keyword">db</span> # 设定需要忽略的复制数据库replicate-<span class="keyword">do</span>-<span class="keyword">table</span>  # 设定需要复制的表replicate-ignore-<span class="keyword">table</span> # 设定需要忽略的复制表replicate-wild-<span class="keyword">do</span>-<span class="keyword">table</span> # 同replication-<span class="keyword">do</span>-<span class="keyword">table</span>功能一样，但是可以通配符replicate-wild-ignore-<span class="keyword">table</span> # 同replication-ignore-<span class="keyword">table</span>功能一样，但是可以加通配符</span><br></pre></td></tr></table></figure>
 
 <h3 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h3><ul>
-<li><strong>mysql</strong>-&gt;<strong>mariadb</strong>版本问题</li>
+<li><strong>mysql</strong>-&gt;<strong>mariadb</strong>版本问题,当主从使用的分别是<strong>mysql</strong>和<strong>mariadb</strong>时，可能的错误。</li>
 </ul>
 <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Last_IO_Error: Got fatal <span class="keyword">error</span> <span class="number">1236</span> <span class="keyword">from</span> master when reading data <span class="keyword">from</span> binary <span class="built_in">log</span>: 'Client requested master <span class="keyword">to</span> start replication <span class="keyword">from</span> position &gt; <span class="built_in">file</span> size'</span><br></pre></td></tr></table></figure>
 
@@ -553,7 +553,7 @@
 </div>
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共4.7k字</span>
+  <span class="post-count">博客全站共4.8k字</span>
 </div>
         
 
