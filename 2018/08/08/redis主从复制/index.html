@@ -59,6 +59,7 @@
 <meta property="og:description" content="原文并没有把配置过程写的很详细，此文是我亲手配置总结得来。环境centos7    redis-cli 3.2.12前面是理论部分，后边为配置的实际代码。可以跳过理论直接上代码！">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://xuefeng.online/2018/08/08/redis主从复制/%E4%B8%BB%E6%9C%BA.png">
+<meta property="og:image" content="http://xuefeng.online/2018/08/08/redis主从复制/%E4%BB%8E%E6%9C%BA.png">
 <meta property="og:updated_time" content="2018-08-08T08:08:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis主从复制">
@@ -366,7 +367,7 @@
 <h5 id="验证是否主服务器写入数据从服务器同步数据"><a href="#验证是否主服务器写入数据从服务器同步数据" class="headerlink" title="验证是否主服务器写入数据从服务器同步数据"></a><strong>验证是否主服务器写入数据从服务器同步数据</strong></h5><p>主机存入key为name，value为zhangsan </p>
 <p><img src="/2018/08/08/redis主从复制/%E4%B8%BB%E6%9C%BA.png" alt="主机"></p>
 <p>从机检查是否同步此条数据</p>
-<p>![从机](redis主从复制/从机 .png)</p>
+<p><img src="/2018/08/08/redis主从复制/%E4%BB%8E%E6%9C%BA.png" alt="从机"></p>
 <h5 id="没问题，打完收功！"><a href="#没问题，打完收功！" class="headerlink" title="没问题，打完收功！"></a>没问题，打完收功！</h5><h4 id="可能遇到的报错："><a href="#可能遇到的报错：" class="headerlink" title="可能遇到的报错："></a>可能遇到的报错：</h4><h5 id="1-Error-condition-on-socket-for-SYNC-Connection-refused"><a href="#1-Error-condition-on-socket-for-SYNC-Connection-refused" class="headerlink" title="1. Error condition on socket for SYNC: Connection refused"></a>1. Error condition on socket for SYNC: Connection refused</h5><p>  <strong>出现原因</strong>：</p>
 <p>  ​    redis主服务器绑定了127.0.0.1，跨服务器IP的访问就会失败，只能本机才能访问，外部请求会被过滤。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">解决方法：</span><br><span class="line">1. 主服务器绑定ip: bind 39.107.38.62</span><br><span class="line">3. bind 0.0.0.0</span><br><span class="line">2. 注释bind  # 会报下面的错↓</span><br></pre></td></tr></table></figure>
@@ -545,7 +546,7 @@
 </div>
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共11.7k字</span>
+  <span class="post-count">博客全站共11.6k字</span>
 </div>
         
 
