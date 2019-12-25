@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.2">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.2" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.2">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="loop_count 为批量插的次数batch_size为每次批量查的数据量两者通过自定义，实现想插多少插多少。123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767">
+<meta name="keywords" content="python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python脚本向Mysql插入一亿条测试数据">
+<meta property="og:url" content="http://xuefeng.online/2018/08/08/python脚本向Mysql插入一亿条测试数据/index.html">
+<meta property="og:site_name" content="积沙填海">
+<meta property="og:description" content="loop_count 为批量插的次数batch_size为每次批量查的数据量两者通过自定义，实现想插多少插多少。123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://xuefeng.online/2018/08/08/python脚本向Mysql插入一亿条测试数据/1577242844(1).png">
+<meta property="og:updated_time" content="2018-08-08T08:08:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python脚本向Mysql插入一亿条测试数据">
+<meta name="twitter:description" content="loop_count 为批量插的次数batch_size为每次批量查的数据量两者通过自定义，实现想插多少插多少。123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767">
+<meta name="twitter:image" content="http://xuefeng.online/2018/08/08/python脚本向Mysql插入一亿条测试数据/1577242844(1).png">
+
+<link rel="canonical" href="http://xuefeng.online/2018/08/08/python脚本向Mysql插入一亿条测试数据/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>python脚本向Mysql插入一亿条测试数据 | 积沙填海</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">积沙填海</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">记录生活中的点点滴滴</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">10</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://xuefeng.online/2018/08/08/python脚本向Mysql插入一亿条测试数据/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pingtouge.jpg">
+      <meta itemprop="name" content="逆光而行">
+      <meta itemprop="description" content="逆光而行">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="积沙填海">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          python脚本向Mysql插入一亿条测试数据
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-08-08 16:08:08" itemprop="dateCreated datePublished" datetime="2018-08-08T16:08:08+08:00">2018-08-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>loop_count 为批量插的次数</strong></p><p><strong>batch_size为每次批量查的数据量</strong></p><p><strong>两者通过自定义，实现想插多少插多少。</strong></p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> MySQLdb</span><br><span class="line"><span class="keyword">import</span> MySQLdb.cursors</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 批量插的次数</span></span><br><span class="line">loop_count = <span class="number">100000</span></span><br><span class="line"><span class="comment"># 每次批量查的数据量</span></span><br><span class="line">batch_size = <span class="number">100</span></span><br><span class="line">success_count = <span class="number">0</span></span><br><span class="line">fails_count = <span class="number">0</span></span><br><span class="line"><span class="comment"># 数据库的连接</span></span><br><span class="line"><span class="comment"># 使用 SSCursor (流式游标)，避免客户端占用大量内存。(这个 cursor 实际上没有缓存下来任何数据，它不会读取所有所有到内存中，它的做法是从储存块中读取记录，并且一条一条返回给你。)</span></span><br><span class="line">conn = MySQLdb.connect(host=<span class="string">"47.97.172.176"</span>,</span><br><span class="line">                       user=<span class="string">"root"</span>,</span><br><span class="line">                       passwd=<span class="string">"123456"</span>,</span><br><span class="line">                       db=<span class="string">"test"</span>,</span><br><span class="line">                       port=<span class="number">3306</span>,</span><br><span class="line">                       cursorclass=MySQLdb.cursors.SSCursor)</span><br><span class="line">chars = <span class="string">'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz'</span></span><br><span class="line">digits = <span class="string">'0123456789'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">random_generate_string</span><span class="params">(length)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">''</span>.join(random.sample(chars, length))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">random_generate_number</span><span class="params">(length)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> length &gt; len(digits):</span><br><span class="line">        digit_list = random.sample(digits, len(digits))</span><br><span class="line">        digit_list.append(random.choice(digits))</span><br><span class="line">        <span class="keyword">return</span> <span class="string">''</span>.join(digit_list)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">''</span>.join(random.sample(digits, length))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">random_generate_data</span><span class="params">(num)</span>:</span></span><br><span class="line">    c = [num]</span><br><span class="line">    phone_num_seed = <span class="number">13100000000</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_random_generate_data</span><span class="params">()</span>:</span></span><br><span class="line">        c[<span class="number">0</span>] += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> (c[<span class="number">0</span>], <span class="string">"last_name_"</span> + str(random.randrange(<span class="number">100000</span>)),</span><br><span class="line">                <span class="string">"first_name_"</span> + str(random.randrange(<span class="number">100000</span>)),</span><br><span class="line">                random.choice(<span class="string">'MF'</span>), random.randint(<span class="number">1</span>, <span class="number">120</span>),</span><br><span class="line">                phone_num_seed + c[<span class="number">0</span>], random_generate_string(<span class="number">20</span>),</span><br><span class="line">                random_generate_string(<span class="number">10</span>), time.strftime(<span class="string">"%Y-%m-%d %H:%M:%S"</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> _random_generate_data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execute_many</span><span class="params">(insert_sql, batch_data)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> success_count, fails_count</span><br><span class="line">    cursor = conn.cursor()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        cursor.executemany(insert_sql, batch_data)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        conn.rollback()</span><br><span class="line">        fails_count = fails_count + len(batch_data)</span><br><span class="line">        print(e)</span><br><span class="line">        <span class="keyword">raise</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        conn.commit()</span><br><span class="line">        success_count = success_count + len(batch_data)</span><br><span class="line">        print(str(success_count) + <span class="string">" commit"</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        cursor.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment"># user表列的数量</span></span><br><span class="line">    column_count = <span class="number">9</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 插入的SQL</span></span><br><span class="line">    insert_sql = <span class="string">"replace into user(id, last_name, first_name, sex, age, phone, address, password, create_time) values ("</span> + <span class="string">","</span>.join(</span><br><span class="line">        [<span class="string">"%s"</span> <span class="keyword">for</span> x <span class="keyword">in</span> range(column_count)]) + <span class="string">")"</span></span><br><span class="line">    batch_count = <span class="number">0</span></span><br><span class="line">    begin_time = time.time()</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> range(loop_count):</span><br><span class="line">        batch_count = x * batch_size</span><br><span class="line">        gen_fun = random_generate_data(batch_count)</span><br><span class="line">        batch_data = [gen_fun() <span class="keyword">for</span> x <span class="keyword">in</span> range(batch_size)]</span><br><span class="line">        execute_many(insert_sql, batch_data)</span><br><span class="line">    end_time = time.time()</span><br><span class="line">    total_sec = end_time - begin_time</span><br><span class="line">    qps = success_count / total_sec</span><br><span class="line">    print(<span class="string">"总共生成数据： "</span> + str(success_count))</span><br><span class="line">    print(<span class="string">"总共耗时(s): "</span> + str(total_sec))</span><br><span class="line">    print(<span class="string">"QPS: "</span> + str(qps))</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line">    <span class="keyword">raise</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure><a id="more"></a>
+
+
+
+
+<p><strong>效果图</strong></p>
+<p><img src="/2018/08/08/python脚本向Mysql插入一亿条测试数据/1577242844(1).png" alt="效果图"></p>
+<h4 id="妈妈再也不用担心我测试数据不足啦！"><a href="#妈妈再也不用担心我测试数据不足啦！" class="headerlink" title="妈妈再也不用担心我测试数据不足啦！"></a>妈妈再也不用担心我测试数据不足啦！</h4><p>原文链接找不到啦，抱歉</p>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>逆光而行
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://xuefeng.online/2018/08/08/python脚本向Mysql插入一亿条测试数据/" title="python脚本向Mysql插入一亿条测试数据">http://xuefeng.online/2018/08/08/python脚本向Mysql插入一亿条测试数据/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2018/08/08/python语法：for-else/" rel="next" title="python语法：for...else...">
+                  <i class="fa fa-chevron-left"></i> python语法：for...else...
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2018/08/08/mysql索引类型及创建索引/" rel="prev" title="mysql索引类型及创建索引">
+                  mysql索引类型及创建索引 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#妈妈再也不用担心我测试数据不足啦！"><span class="nav-number">1.</span> <span class="nav-text">妈妈再也不用担心我测试数据不足啦！</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="逆光而行"
+    src="/images/pingtouge.jpg">
+  <p class="site-author-name" itemprop="name">逆光而行</p>
+  <div class="site-description" itemprop="description">逆光而行</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/zh-CN" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">平头哥</span>
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i>
+  <span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共16k字</span>
+</div>
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,0' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.2"></script><script src="/js/motion.js?v=7.4.2"></script>
+<script src="/js/schemes/pisces.js?v=7.4.2"></script>
+<script src="/js/next-boot.js?v=7.4.2"></script>
+
+
+
+  
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.2"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
